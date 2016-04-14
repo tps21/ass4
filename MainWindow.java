@@ -18,8 +18,8 @@ public class MainWindow extends JFrame
 	private JPanel panel1, panel2, panel3, panel4;
 	private JButton button1, button2, button3, button4, button5, button6, button7, button8;
 	private JLabel office1, office2, blank, blank2;
-	//private int numberOfBallots;
-	//private int ballotRows;
+	private int numberOfBallots = Ballot.getNumberOfBallots();
+	private int ballotRows = Ballot.getBallotRows();
 	private Object officeID;
 	private Object candidate;
 	
@@ -44,6 +44,8 @@ public class MainWindow extends JFrame
 		
 		//builds the panel
 		int t = numberOfBallots;
+		System.out.println("Before first panel stats: ballotRows " + ballotRows + " numberOfBallots " + numberOfBallots);
+		
 		buildFirstPanel(ballotRows, numberOfBallots);
 		
 		//adds the panel to the pane
@@ -71,9 +73,18 @@ public class MainWindow extends JFrame
 				//add GridLayout manager to content pane 1 row, 3 columns
 				setLayout(new FlowLayout());
 				
+				System.out.println("Before second panel stats: ballotRows " + ballotRows + " numberOfBallots " + numberOfBallots);
+				
+				
+				
 				//builds the panel
 				int t = numberOfBallots;
 				buildSecondPanel(ballotRows, numberOfBallots, officeID, candidate);
+				
+				
+				
+				
+				
 				
 				//adds the panel to the pane
 				add(panel1);
@@ -93,8 +104,8 @@ public class MainWindow extends JFrame
 	{
 		// TODO Auto-generated method stub
 		
-		office1 = new JLabel("Office 1");
-		office2 = new JLabel("Office 2");
+		//office1 = new JLabel("Office 1");
+		//office2 = new JLabel("Office 2");
 		
 		blank = new JLabel();
 		blank2 = new JLabel();
@@ -102,35 +113,46 @@ public class MainWindow extends JFrame
 		button3.addActionListener(new VoteListener());
 		
 		
-		/**
+		
+		JLabel[] jLabels = new JLabel[numberOfBallots];
 		//loop thru JLabels for each office
-		String cur[]= {"AAAAAA","B","C"};
-		JLabel[] labels = new JLabel[cur.length];
-
-		for (int i = 0; i < 3; i++)
-		{
-    		labels[i] = new JLabel( cur[i] );
-    		panel1.add(new JLabel());
-		}
-		System.out.println(labels[0]);	*/
+		for (int index=0; index<numberOfBallots; index++)
+ 		{
+ 			jLabels[index] = new JLabel("Office# " + index);
+ 			//panel1.add(jLabels[i]);
+ 			System.out.println(jLabels.length);
+ 		}
+		
+		//loop to create button
+		JButton[] JButtons = new JButton[(ballotRows* numberOfBallots)];
+		ButtonGroup group = new ButtonGroup();
+		for (int i=0; i<JButtons.length; i++)
+			
+ 		{
+			JButtons[i] = new JButton("Cand # " + i);
+ 			//panel1.add(jLabels[i]);
+			
+			System.out.println(JButtons.length);
+ 		}
 		
 		
-		System.out.println("Second panel stats ballotRows " + ballotRows + " numberOfBallots " + numberOfBallots);
+		System.out.println("Second panel stats: ballotRows " + ballotRows + " numberOfBallots " + numberOfBallots);
 		
 		
 		
 		
-		button4 = new JButton("Cand #2");
+		
+		button4 = new JButton("Cand #20");
 		button4.addActionListener(new VoteListener());
-		button5 = new JButton("Cand #3");
+		button5 = new JButton("Cand #30");
 		button5.addActionListener(new VoteListener());
-		button6 = new JButton("Cand #4");
+		button6 = new JButton("Cand #40");
 		button6.addActionListener(new VoteListener());
-		button7 = new JButton("Cand #5");
+		button7 = new JButton("Cand #50");
 		button7.addActionListener(new VoteListener());
-		button8 = new JButton("Cand #6");
+		button8 = new JButton("Cand #60");
 		button8.addActionListener(new VoteListener());
-		button1 = new JButton("LogIn to Vote");
+		button1 = new JButton("Log In to Vote");
 		
 		
 		
@@ -139,7 +161,7 @@ public class MainWindow extends JFrame
 		button2.addActionListener(new CastListener());
 		
 		
-		panel1 = new JPanel(new GridLayout(4,3));
+		panel1 = new JPanel(new GridLayout((ballotRows+2),numberOfBallots));
 		//panel2 = new JPanel(new GridLayout(4,1));
 		panel3 = new JPanel(new GridLayout(3,1));
 		panel4 = new JPanel(new GridLayout(3,1));
@@ -151,18 +173,49 @@ public class MainWindow extends JFrame
 		panel3.setBackground(Color.GREEN);
 		panel4.setBackground(Color.ORANGE);
 		
-		panel1.add(office1);
-		panel1.add(button3, BorderLayout.SOUTH);
-		panel1.add(button5, BorderLayout.SOUTH);
-		panel1.add(button7, BorderLayout.SOUTH);
-		panel1.add(office2);
-		panel1.add(button4, BorderLayout.SOUTH);
-		panel1.add(button6, BorderLayout.SOUTH);
-		panel1.add(button8, BorderLayout.SOUTH);
+		//for loop to add labels
+		for (int i=0; i<jLabels.length; i++)
+ 		{
+ 			//jLabels[i] = new JLabel("Office " + i);
+			
+			panel1.add(jLabels[i]);
+			for (int j=0; j<JButtons.length; j++)
+			{
+				//group.add(JButtons[col]);
+				
+				panel1.add(JButtons[j], BorderLayout.SOUTH);
+				System.out.println(i + " + " + j);
+			}
+ 			
+ 			
+ 		}
+		
+		
+		
+		
+		
+		/**for loop to add buttons
+		for (int i=0; i<3; i++)
+		{
+		 			//jLabels[i] = new JLabel("Office " + i);
+			panel1.add(JButtons[i], BorderLayout.SOUTH);
+		}*/
+		
+		//panel1.add(office1);
+		//panel1.add(button3, BorderLayout.SOUTH);
+		//panel1.add(button5, BorderLayout.SOUTH);
+		//panel1.add(button7, BorderLayout.SOUTH);
+		//panel1.add(office2);
+		//panel1.add(button4, BorderLayout.SOUTH);
+		//panel1.add(button6, BorderLayout.SOUTH);
+		//panel1.add(button8, BorderLayout.SOUTH);
 		panel3.add(blank);
 		panel4.add(blank2);
 		panel3.add(button1, BorderLayout.SOUTH);
 		panel4.add(button2, BorderLayout.SOUTH);
+		
+		
+		
 		
 		
 		
@@ -194,6 +247,7 @@ public class MainWindow extends JFrame
 		*/
 		
 		
+		System.out.println("First panel stats: ballotRows " + ballotRows + " numberOfBallots " + numberOfBallots);
 		
 		
 		office1 = new JLabel("Office 1");
